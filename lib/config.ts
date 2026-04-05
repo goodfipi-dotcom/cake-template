@@ -122,7 +122,7 @@ export const shopConfig = {
     },
     {
       id: 5,
-      name: "Свадебный классик",
+      name: "Свадебный",
       price: 5500,
       weight: "3 кг",
       image: "https://i.pinimg.com/736x/33/d1/73/33d173f11fca07712737567a5a30f978.jpg",  // ← замени
