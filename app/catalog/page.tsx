@@ -9,6 +9,7 @@ import AnimatedSection from "@/components/AnimatedSection";
 
 export default function CatalogPage() {
   const [activeCategory, setActiveCategory] = useState("Все");
+  const { primary: CORAL } = shopConfig.colors;
 
   const filtered =
     activeCategory === "Все"
@@ -39,7 +40,7 @@ export default function CatalogPage() {
             <h1 className="text-5xl md:text-7xl font-bold tracking-tight">
               Каталог тортов
             </h1>
-            <div className="mt-6 w-16 h-[2px] bg-[#ff8576] mx-auto" />
+            <div className="mt-6 w-16 h-[2px] mx-auto" style={{ backgroundColor: CORAL }} />
           </motion.div>
         </div>
       </section>
@@ -52,11 +53,12 @@ export default function CatalogPage() {
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
-                className={`px-7 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
+                className="px-7 py-2.5 rounded-full text-sm font-medium transition-all duration-300"
+                style={
                   activeCategory === cat
-                    ? "bg-[#ff8576] text-white shadow-lg shadow-[#ff8576]/25"
-                    : "bg-transparent text-stone-500 hover:text-[#ff8576] border border-stone-200 hover:border-[#ff8576]/50"
-                }`}
+                    ? { backgroundColor: CORAL, color: "#fff", boxShadow: `0 10px 15px -3px ${CORAL}40` }
+                    : { backgroundColor: "transparent", color: "#78716c", border: "1px solid #e7e5e4" }
+                }
               >
                 {cat}
               </button>
@@ -94,7 +96,8 @@ export default function CatalogPage() {
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-500 flex items-center justify-center">
                     <Link
                       href={`/order?cake=${encodeURIComponent(cake.name)}`}
-                      className="opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500 bg-[#ff8576] hover:bg-[#ff6f5e] text-white px-8 py-3 rounded-full text-sm font-semibold tracking-wide shadow-xl"
+                      className="opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500 text-white px-8 py-3 rounded-full text-sm font-semibold tracking-wide shadow-xl"
+                      style={{ backgroundColor: CORAL }}
                     >
                       Заказать
                     </Link>
@@ -106,7 +109,7 @@ export default function CatalogPage() {
                   <h3 className="font-semibold text-stone-800 text-lg">
                     {cake.name}
                   </h3>
-                  <p className="text-2xl font-bold text-[#ff8576] mt-1">
+                  <p className="text-2xl font-bold mt-1" style={{ color: CORAL }}>
                     {cake.price.toLocaleString()} &#8381;
                   </p>
                 </div>

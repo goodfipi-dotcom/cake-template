@@ -8,18 +8,13 @@ import { shopConfig } from "@/lib/config";
 import AnimatedSection from "@/components/AnimatedSection";
 import { useRef } from "react";
 
-const CORAL = "#ff8576";
-const DARK = "#212529";
-
-const occasions = ["День рождения", "Свадьба", "Детский праздник"];
-const sizes = ["1 кг", "1.5 кг", "2 кг", "3 кг"];
-const flavors = ["Шоколад", "Ваниль", "Ягоды", "Карамель"];
-
 export default function Home() {
   const [calcStep, setCalcStep] = useState(0);
   const [occasion, setOccasion] = useState("");
   const [size, setSize] = useState("");
   const [flavor, setFlavor] = useState("");
+
+  const { primary: CORAL, dark: DARK } = shopConfig.colors;
 
   const heroRef = useRef(null);
   const { scrollYProgress } = useScroll({
@@ -32,9 +27,9 @@ export default function Home() {
   const sliderRef = useRef<HTMLDivElement>(null);
 
   const calcOptions = [
-    { title: "Повод", items: occasions, value: occasion, set: setOccasion },
-    { title: "Размер", items: sizes, value: size, set: setSize },
-    { title: "Вкус", items: flavors, value: flavor, set: setFlavor },
+    { title: "Повод",  items: shopConfig.calculator.occasions, value: occasion, set: setOccasion },
+    { title: "Размер", items: shopConfig.calculator.sizes,     value: size,     set: setSize },
+    { title: "Вкус",   items: shopConfig.calculator.flavors,   value: flavor,   set: setFlavor },
   ];
 
   const currentCalc = calcOptions[calcStep];
@@ -66,7 +61,7 @@ export default function Home() {
               className="text-sm uppercase tracking-[0.3em] font-medium"
               style={{ color: CORAL }}
             >
-              Кондитерская ручной работы
+              {shopConfig.hero.badge}
             </motion.div>
 
             <motion.h1
@@ -99,19 +94,19 @@ export default function Home() {
                 className="px-9 py-4 rounded-full text-base font-semibold text-white transition-all hover:scale-105 hover:shadow-xl"
                 style={{ background: CORAL }}
               >
-                Каталог тортов
+                {shopConfig.hero.ctaCatalog}
               </Link>
               <Link
                 href="/order"
                 className="px-9 py-4 rounded-full text-base font-semibold border-2 transition-all hover:scale-105"
                 style={{ borderColor: CORAL, color: CORAL }}
               >
-                Заказать торт
+                {shopConfig.hero.ctaOrder}
               </Link>
             </motion.div>
           </motion.div>
 
-          {/* Right — hero cake image, rotated like a cut-out object */}
+          {/* Right — hero cake image */}
           <motion.div
             style={{ y: heroY }}
             className="relative flex items-center justify-center"
@@ -345,25 +340,25 @@ export default function Home() {
                   className="text-3xl md:text-4xl font-bold mb-6 leading-tight"
                   style={{ color: DARK }}
                 >
-                  Каждый торт —<br />история вкуса
+                  {shopConfig.about.title}
                 </h2>
                 <p className="text-stone-500 leading-relaxed mb-8">
-                  Мы создаём торты, в которые вложена душа. Натуральные ингредиенты,
-                  авторские рецептуры и внимание к каждой детали — от начинки до декора.
+                  {shopConfig.about.description}
                 </p>
-                <div className="grid grid-cols-3 gap-6">
-                  <div>
-                    <div className="text-2xl font-bold" style={{ color: CORAL }}>500+</div>
-                    <div className="text-xs text-stone-400 mt-1">Тортов создано</div>
+                <div className="grid grid-cols-3 gap-6 mb-8">
+                  {shopConfig.about.stats.map((stat) => (
+                    <div key={stat.label}>
+                      <div className="text-2xl font-bold" style={{ color: CORAL }}>{stat.number}</div>
+                      <div className="text-xs text-stone-400 mt-1">{stat.label}</div>
+                    </div>
+                  ))}
+                </div>
+                <div className="pt-6 border-t border-stone-100">
+                  <div className="text-xs uppercase tracking-[0.25em] mb-3 font-medium text-stone-400">
+                    Режим работы
                   </div>
-                  <div>
-                    <div className="text-2xl font-bold" style={{ color: CORAL }}>4.9</div>
-                    <div className="text-xs text-stone-400 mt-1">Рейтинг</div>
-                  </div>
-                  <div>
-                    <div className="text-2xl font-bold" style={{ color: CORAL }}>3 ч</div>
-                    <div className="text-xs text-stone-400 mt-1">Мин. доставка</div>
-                  </div>
+                  <p className="text-stone-600 font-medium">{shopConfig.workingHours}</p>
+                  <p className="text-stone-400 text-sm mt-1">{shopConfig.city}, {shopConfig.address}</p>
                 </div>
               </div>
             </AnimatedSection>
@@ -392,12 +387,7 @@ export default function Home() {
           </AnimatedSection>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {[
-              { step: "01", title: "Выберите", desc: "Торт из каталога или свою идею" },
-              { step: "02", title: "Заявка", desc: "Заполните форму или напишите нам" },
-              { step: "03", title: "Детали", desc: "Обсудим дизайн, вкус и дату" },
-              { step: "04", title: "Готово", desc: "Доставим к вашему празднику" },
-            ].map((item, i) => (
+            {shopConfig.orderSteps.map((item, i) => (
               <AnimatedSection key={item.step} delay={i * 0.1}>
                 <div className="text-center">
                   <div

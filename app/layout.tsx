@@ -12,8 +12,8 @@ const geistSans = Geist({
 });
 
 export const metadata: Metadata = {
-  title: `${shopConfig.name} — Торты на заказ в ${shopConfig.city}`,
-  description: `${shopConfig.tagline}. Заказывайте торты с доставкой по ${shopConfig.city}. Каталог, цены, онлайн-заказ.`,
+  title: shopConfig.seo.title,
+  description: shopConfig.seo.description,
 };
 
 export default function RootLayout({
