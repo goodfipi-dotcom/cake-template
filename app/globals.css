@@ -16,41 +16,47 @@ body {
   color: var(--foreground);
 }
 
-/* 3D карточка */
-.card-3d {
-  perspective: 1000px;
-}
-
-.card-3d-inner {
-  transition: transform 0.4s ease, box-shadow 0.4s ease;
-  transform-style: preserve-3d;
-}
-
-.card-3d:hover .card-3d-inner {
-  transform: rotateY(-5deg) rotateX(5deg) scale(1.02);
-  box-shadow: 20px 20px 60px rgba(180, 120, 60, 0.15), -5px -5px 20px rgba(255, 255, 255, 0.8);
-}
-
-/* Плавающая анимация */
+/* ─── Плавающие анимации ───────────────────────────────────────── */
 @keyframes float {
   0%, 100% { transform: translateY(0px) rotate(0deg); }
-  25% { transform: translateY(-12px) rotate(1deg); }
-  75% { transform: translateY(-6px) rotate(-1deg); }
+  25%       { transform: translateY(-14px) rotate(1.5deg); }
+  75%       { transform: translateY(-7px) rotate(-1deg); }
 }
 
-.animate-float {
-  animation: float 6s ease-in-out infinite;
+@keyframes float-delay {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33%       { transform: translateY(-10px) rotate(-2deg); }
+  66%       { transform: translateY(-18px) rotate(1deg); }
 }
 
-.animate-float-delay {
-  animation: float 6s ease-in-out 2s infinite;
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50%       { transform: translateY(-20px) scale(1.02); }
 }
 
-.animate-float-slow {
-  animation: float 8s ease-in-out 1s infinite;
+@keyframes drift {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  25%       { transform: translate(8px, -12px) rotate(2deg); }
+  50%       { transform: translate(-5px, -18px) rotate(-1deg); }
+  75%       { transform: translate(-10px, -6px) rotate(1.5deg); }
 }
 
-/* Градиентный текст */
+/* ─── Marquee ──────────────────────────────────────────────────── */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.marquee-track {
+  animation: marquee 28s linear infinite;
+  will-change: transform;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+/* ─── Текстовые градиенты ──────────────────────────────────────── */
 .text-gradient {
   background: linear-gradient(135deg, #92400e 0%, #d97706 50%, #b45309 100%);
   -webkit-background-clip: text;
@@ -58,17 +64,49 @@ body {
   background-clip: text;
 }
 
-/* Стеклянная карточка */
-.glass {
-  background: rgba(255, 255, 255, 0.6);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+.text-gradient-coral {
+  background: linear-gradient(135deg, #ff6b5a 0%, #ff8576 45%, #d4a853 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-/* Shimmer эффект */
+/* ─── Стеклянная карточка ──────────────────────────────────────── */
+.glass {
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.glass-dark {
+  background: rgba(28, 20, 14, 0.7);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* ─── Зернистость (grain) ──────────────────────────────────────── */
+.grain {
+  position: relative;
+  isolation: isolate;
+}
+
+.grain::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='250' height='250'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='250' height='250' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+
+.grain > * { position: relative; z-index: 1; }
+
+/* ─── Shimmer ──────────────────────────────────────────────────── */
 @keyframes shimmer {
-  0% { background-position: -200% center; }
-  100% { background-position: 200% center; }
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
 }
 
 .shimmer {
@@ -77,44 +115,39 @@ body {
   animation: shimmer 3s ease-in-out infinite;
 }
 
-/* Скролл-индикатор */
-@keyframes bounce-down {
-  0%, 100% { transform: translateY(0); opacity: 1; }
-  50% { transform: translateY(10px); opacity: 0.5; }
+/* ─── Float для emoji/иконок ───────────────────────────────────── */
+.animate-float       { animation: float       6s ease-in-out infinite; }
+.animate-float-delay { animation: float-delay 7s ease-in-out 2s infinite; }
+.animate-float-slow  { animation: float-slow  9s ease-in-out 1s infinite; }
+.animate-drift       { animation: drift       8s ease-in-out infinite; }
+
+@keyframes float-emoji {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  25%       { transform: translateY(-12px) rotate(1deg); }
+  75%       { transform: translateY(-6px) rotate(-1deg); }
 }
 
-.animate-bounce-down {
-  animation: bounce-down 2s ease-in-out infinite;
+.animate-float { animation: float-emoji 6s ease-in-out infinite; }
+
+/* ─── Bounce для success ───────────────────────────────────────── */
+@keyframes bounce-pop {
+  0%   { transform: scale(0.8); }
+  60%  { transform: scale(1.1); }
+  100% { transform: scale(1); }
 }
 
-/* Мягкое появление */
-@keyframes fade-up {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+.animate-bounce-pop { animation: bounce-pop 0.5s ease-out; }
 
-/* Вращение декора */
-@keyframes spin-slow {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
+/* ─── Плавный скролл ───────────────────────────────────────────── */
+html { scroll-behavior: smooth; }
 
-.animate-spin-slow {
-  animation: spin-slow 20s linear infinite;
-}
-
-/* Пульс для CTA */
-@keyframes pulse-ring {
-  0% { box-shadow: 0 0 0 0 rgba(217, 119, 6, 0.4); }
-  70% { box-shadow: 0 0 0 15px rgba(217, 119, 6, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(217, 119, 6, 0); }
-}
-
-.pulse-ring {
-  animation: pulse-ring 2s infinite;
-}
-
-/* Плавный скролл */
-html {
-  scroll-behavior: smooth;
+/* ─── Reduced motion ───────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .animate-float,
+  .animate-float-delay,
+  .animate-float-slow,
+  .animate-drift,
+  .marquee-track {
+    animation: none;
+  }
 }
