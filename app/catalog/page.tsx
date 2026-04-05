@@ -4,12 +4,12 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { shopConfig } from "@/lib/config";
+import { shopConfig, CORAL } from "@/lib/config";
 import AnimatedSection from "@/components/AnimatedSection";
+import BackButton from "@/components/BackButton";
 
 export default function CatalogPage() {
   const [activeCategory, setActiveCategory] = useState("Все");
-  const { primary: CORAL } = shopConfig.colors;
 
   const filtered =
     activeCategory === "Все"
@@ -20,46 +20,26 @@ export default function CatalogPage() {
     <div className="bg-white min-h-screen">
       {/* Шапка каталога */}
       <section className="relative h-[50vh] md:h-[60vh] overflow-hidden flex items-center justify-center">
-        <Image
-          src={shopConfig.images.catalogHeader}
-          alt="Каталог"
-          fill
-          className="object-cover"
-          priority
-        />
+        <Image src={shopConfig.images.catalogHeader} alt="Каталог" fill className="object-cover" priority />
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70" />
         <div className="relative z-10 text-center text-white px-4">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, ease: "easeOut" }}
           >
             <p className="text-sm uppercase tracking-[0.3em] text-white/70 mb-4 font-light">
               Премиум выпечка
             </p>
-            <h1 className="text-5xl md:text-7xl font-bold tracking-tight">
-              Каталог тортов
-            </h1>
+            <h1 className="text-5xl md:text-7xl font-bold tracking-tight">Каталог тортов</h1>
             <div className="mt-6 w-16 h-[2px] mx-auto" style={{ backgroundColor: CORAL }} />
           </motion.div>
         </div>
       </section>
 
       <div className="max-w-7xl mx-auto px-4 py-16">
-        {/* Кнопка назад */}
-        <div className="mb-6">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-1.5 text-sm font-medium text-stone-400 hover:text-stone-600 transition-colors"
-          >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-            На главную
-          </Link>
-        </div>
+        <BackButton href="/" label="На главную" />
 
-        {/* Фильтры по категориям */}
+        {/* Фильтры */}
         <AnimatedSection>
           <div className="flex flex-wrap gap-3 justify-center mb-16">
             {shopConfig.categories.map((cat) => (
@@ -83,8 +63,7 @@ export default function CatalogPage() {
         <AnimatePresence mode="wait">
           <motion.div
             key={activeCategory}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.4 }}
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10"
@@ -92,20 +71,15 @@ export default function CatalogPage() {
             {filtered.map((cake, i) => (
               <motion.div
                 key={cake.id}
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
                 className="group"
               >
-                {/* Фото торта с overlay */}
                 <div className="relative h-80 rounded-2xl overflow-hidden mb-5">
                   <Image
-                    src={cake.image}
-                    alt={cake.name}
-                    fill
+                    src={cake.image} alt={cake.name} fill
                     className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                   />
-                  {/* Overlay с кнопкой */}
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-500 flex items-center justify-center">
                     <Link
                       href={`/order?cake=${encodeURIComponent(cake.name)}`}
@@ -116,12 +90,8 @@ export default function CatalogPage() {
                     </Link>
                   </div>
                 </div>
-
-                {/* Название и цена */}
                 <div className="px-1">
-                  <h3 className="font-semibold text-stone-800 text-lg">
-                    {cake.name}
-                  </h3>
+                  <h3 className="font-semibold text-stone-800 text-lg">{cake.name}</h3>
                   <p className="text-2xl font-bold mt-1" style={{ color: CORAL }}>
                     {cake.price.toLocaleString()} &#8381;
                   </p>

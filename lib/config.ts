@@ -140,3 +140,6 @@ export const shopConfig = {
     },
   ] as CakeItem[],
 };
+
+// Удобные именованные экспорты цветов — чтобы не повторять деструктуризацию в каждом файле
+export const { primary: CORAL, dark: DARK } = shopConfig.colors;
