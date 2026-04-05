@@ -125,7 +125,7 @@ export const shopConfig = {
       name: "Свадебный классик",
       price: 5500,
       weight: "3 кг",
-      image: "https://images.unsplash.com/photo-1535141192574-5d4897c12f40?w=800&q=85",  // ← замени
+      image: "https://i.pinimg.com/736x/33/d1/73/33d173f11fca07712737567a5a30f978.jpg",  // ← замени
       category: "Свадебные",
       description: "Элегантный белый торт с цветами",
     },
